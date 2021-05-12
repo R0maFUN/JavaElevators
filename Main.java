@@ -8,7 +8,7 @@ import static java.lang.Thread.sleep;
 public class Main {
     static int MaxFloor = 10;
     static int MaxWorkload = 5;
-    static int ElevatorsAmount = 1;
+    static int ElevatorsAmount = 2;
 
     public static void main(String[] args) {
         List<Elevator> elevators = new ArrayList<Elevator>();
@@ -71,13 +71,13 @@ class RequestHandler {
             }
         }
 
-        // Find elevators that will be waiting
-        for (Elevator elevator : elevators) {
-            if (elevator.getPredictedWorkload(req.currentFloor) == 0) {
-                elevator.processRequest(req);
-                return true;
-            }
-        }
+//        // Find elevators that will be waiting
+//        for (Elevator elevator : elevators) {
+//            if (elevator.getPredictedWorkload(req.currentFloor) == 0) {
+//                elevator.processRequest(req);
+//                return true;
+//            }
+//        }
 
         // Find elevators that will go through requested floor
         for (Elevator elevator : elevators) {

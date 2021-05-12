@@ -136,29 +136,40 @@ public class Elevator extends Thread {
             }
 
             if (this.direction == Direction.up && this.currentFloor >= this.lastDestinationFloor ||
-                this.direction == Direction.down && this.currentFloor <= this.lastDestinationFloor)
+                this.direction == Direction.down && this.currentFloor <= this.lastDestinationFloor) {
+                int inProcess = 0;
+                int waiting = 0;
                 if (this.direction == Direction.down) {
                     this.direction = Direction.up;
                     for (List<Request> inProcessReq : this.processingRequests.values())
-                        for (Request req : inProcessReq)
+                        for (Request req : inProcessReq) {
+                            inProcess++;
                             if (req.destinationFloor > this.lastDestinationFloor)
                                 this.lastDestinationFloor = req.destinationFloor;
+                        }
                     for (List<Request> waitingReq : this.processingRequests.values())
-                        for (Request req : waitingReq)
+                        for (Request req : waitingReq) {
+                            waiting++;
                             if (req.currentFloor > this.lastDestinationFloor)
                                 this.lastDestinationFloor = req.currentFloor;
-                }
-                else if (this.direction == Direction.up) {
+                        }
+                } else if (this.direction == Direction.up) {
                     this.direction = Direction.down;
                     for (List<Request> inProcessReq : this.processingRequests.values())
-                        for (Request req : inProcessReq)
+                        for (Request req : inProcessReq) {
+                            inProcess++;
                             if (req.destinationFloor < this.lastDestinationFloor)
                                 this.lastDestinationFloor = req.destinationFloor;
+                        }
                     for (List<Request> waitingReq : this.processingRequests.values())
-                        for (Request req : waitingReq)
+                        for (Request req : waitingReq) {
+                            waiting++;
                             if (req.currentFloor < this.lastDestinationFloor)
                                 this.lastDestinationFloor = req.currentFloor;
+                        }
                 }
+                System.out.println("Changing direction\nInProcess size = " + inProcess + "\nWaiting: " + waiting);
+            }
 
             if (this.direction == Direction.down && currentFloor > 0)
                 currentFloor--;
